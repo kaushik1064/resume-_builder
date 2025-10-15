@@ -1,6 +1,19 @@
 # Dynamic scraping logic here
-import nest_asyncio
+import sys
 import asyncio
+
+# Ensure a compatible event loop policy on Windows so Playwright can create subprocesses.
+# On Windows the default Proactor event loop may not support subprocesses in some runtimes,
+# so we explicitly use the Selector event loop policy which is compatible with playwright's
+# subprocess usage in this environment.
+if sys.platform == "win32":
+    try:
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    except Exception:
+        # If the policy isn't available (very old Python), ignore and continue.
+        pass
+
+import nest_asyncio
 nest_asyncio.apply()
 import os
 import base64

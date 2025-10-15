@@ -25,10 +25,12 @@ export default function Home() {
     if (jobUrl) formData.append("job_urls", jobUrl);
 
     try {
-      const res = await fetch("http://localhost:8000/process/", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      const res = await fetch(`${apiUrl}/process/`, {
         method: "POST",
         body: formData,
       });
+
       if (!res.ok) {
         alert("Resume creation failed! Please try again.");
         return;
