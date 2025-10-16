@@ -13,7 +13,7 @@ def match_resume_to_job(user_resume_text, jobdesc_text):
         "\n\nJOB DESCRIPTION:\n" + (jobdesc_text or "") +
         "\n\nOutput JSON only."
     )
-    model = genai.GenerativeModel("gemini-pro")
+    model = genai.GenerativeModel("gemini-2.5-flash")
     resp = model.generate_content(prompt)
     import json
     try:
