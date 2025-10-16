@@ -25,10 +25,12 @@ def tex_to_pdf(tex_path, output_dir):
         print(f"  Lines: {len(tex_content.splitlines())}")
         
         # Check for common issues
-        if '{{' in tex_content and '|default' in tex_content:
+        if '{{' in tex_content and ('|default' in tex_content or '}}' in tex_content):
             print("  ⚠ WARNING: Found unprocessed Jinja2 syntax!")
             print("  This means the template wasn't rendered correctly")
-        
+            # Fail fast: don't attempt LaTeX compilation when template markers remain
+            raise Exception("TeX template appears unrendered (Jinja2 markers present). Aborting LaTeX compile.")
+
         # Show first few lines for debugging
         lines = tex_content.splitlines()
         print("\n  First 10 lines:")
@@ -52,12 +54,15 @@ def tex_to_pdf(tex_path, output_dir):
     
     try:
         # First pass
+        # Increase timeout (compilation can take longer on some systems)
+        LATEX_TIMEOUT = 120  # seconds
+
         result = subprocess.run(
             cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            timeout=30,
-            cwd=str(output_dir.parent)  # Run from parent directory
+            timeout=LATEX_TIMEOUT,
+            cwd=str(output_dir)  # Run from output dir for relative resource resolution
         )
         
         stdout_output = result.stdout.decode('utf-8', errors='ignore')
@@ -76,8 +81,8 @@ def tex_to_pdf(tex_path, output_dir):
             cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            timeout=30,
-            cwd=str(output_dir.parent)
+            timeout=LATEX_TIMEOUT,
+            cwd=str(output_dir)
         )
         
         # Find the generated PDF
@@ -125,8 +130,20 @@ def tex_to_pdf(tex_path, output_dir):
             for warning in warnings[:5]:  # Show first 5 warnings
                 print(f"  {warning}")
         
+        # Save captured stdout/stderr to files for easier inspection
+        stdout_log = output_dir / (tex_path.stem + '.pdflatex.stdout.log')
+        stderr_log = output_dir / (tex_path.stem + '.pdflatex.stderr.log')
+        with open(stdout_log, 'w', encoding='utf-8') as f:
+            f.write(stdout_output)
+        with open(stderr_log, 'w', encoding='utf-8') as f:
+            f.write(stderr_output)
+
         # Check log file for detailed error info
         log_file = output_dir / (tex_path.stem + '.log')
+
+        # Ensure we always have a path for the excerpt (avoid NameError later)
+        log_excerpt_file = output_dir / 'latex_error_excerpt.log'
+
         if log_file.exists():
             print("\n" + "=" * 70)
             print("📋 LOG FILE ANALYSIS")
@@ -170,14 +187,19 @@ def tex_to_pdf(tex_path, output_dir):
                 print("   Try installing additional LaTeX packages")
             
             # Save log excerpt for manual inspection
-            log_excerpt_file = output_dir / 'latex_error_excerpt.log'
             with open(log_excerpt_file, 'w', encoding='utf-8') as f:
                 f.write("LAST 100 LINES OF LOG:\n")
                 f.write("=" * 70 + "\n")
                 f.write('\n'.join(log_content.splitlines()[-100:]))
+        else:
+            # If no .log file, write a short note to the excerpt file to aid debugging
+            with open(log_excerpt_file, 'w', encoding='utf-8') as f:
+                f.write("No TeX .log file found. Check pdflatex stdout/stderr logs for details.\n")
             
-            print(f"\n📄 Full log excerpt saved to: {log_excerpt_file}")
-        
+        print(f"\n📄 Full log excerpt saved to: {log_excerpt_file}")
+        print(f"\n📄 pdflatex stdout: {stdout_log}")
+        print(f"📄 pdflatex stderr: {stderr_log}")
+
         # Print the problematic .tex file location
         print("\n" + "=" * 70)
         print(f"📁 Files for debugging:")
@@ -185,22 +207,24 @@ def tex_to_pdf(tex_path, output_dir):
         print(f"   Log file: {log_file}")
         print(f"   Working directory: {output_dir}")
         print("=" * 70)
-        
+
         # Create a simplified test
         print("\n🧪 Debugging tip:")
-        print("   Run manually: cd temp && pdflatex resume.tex")
+        print(f"   Run manually: cd {output_dir} && pdflatex {tex_path.name}")
         print("   This will show interactive error messages")
-        
+
         raise Exception(
             f"LaTeX compilation failed.\n"
             f"Check files:\n"
             f"  - {log_file}\n"
+            f"  - {stdout_log}\n"
+            f"  - {stderr_log}\n"
             f"  - {tex_path}\n"
-            f"Run 'cd {output_dir.parent} && pdflatex {tex_path.name}' for interactive debugging"
+            f"Run 'cd {output_dir} && pdflatex {tex_path.name}' for interactive debugging"
         )
     
     except subprocess.TimeoutExpired:
-        raise Exception("LaTeX compilation timed out after 30 seconds")
+        raise Exception("LaTeX compilation timed out (increase timeout or check LaTeX logs).")
     except Exception as e:
         print(f"\n❌ Unexpected error: {type(e).__name__}: {e}")
         raise

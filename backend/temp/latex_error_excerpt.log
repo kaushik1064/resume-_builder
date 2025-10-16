@@ -1,0 +1,101 @@
+LAST 100 LINES OF LOG:
+======================================================================
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.66 ...heading{\textbf{EDUCATION} }\\[\lsep]\\ \\
+                                                  
+? 
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.69 \indent
+             \begin{tabular}{ p{2.5cm} @{\hskip 0.15in} p{5.5cm} @{\hskip 0....
+
+? 
+
+Overfull \hbox (3.04868pt too wide) in paragraph at lines 69--76
+[][] 
+ []
+
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.79 \\ \\
+          
+? 
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.80 
+     
+? 
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 9
+4.
+(C:\Users\KAUSHIK\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ppl.fd
+File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
+)
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.201 ...eading{\textbf{CERTIFICATIONS} }\\[\lsep]
+                                                  
+? 
+[1
+
+{C:/Users/KAUSHIK/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/KA
+USHIK/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}] (resume.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+ ***********
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+Package rerunfilecheck Warning: File `resume.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `resume.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+ ) 
+Here is how much of TeX's memory you used:
+ 9738 strings out of 474486
+ 152456 string characters out of 5742810
+ 1952542 words of memory out of 5000000
+ 31911 multiletter control sequences out of 15000+600000
+ 567434 words of font info for 53 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 75i,8n,79p,338b,434s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/KAUSHIK/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmsy9.pfb><C:/Users/KAUSHIK/AppData/Local/Programs/MiKTeX/fonts/type1/urw/pal
+atino/uplb8a.pfb><C:/Users/KAUSHIK/AppData/Local/Programs/MiKTeX/fonts/type1/ur
+w/palatino/uplr8a.pfb><C:/Users/KAUSHIK/AppData/Local/Programs/MiKTeX/fonts/typ
+e1/urw/palatino/uplri8a.pfb>
+Output written on resume.pdf (1 page, 82081 bytes).
+PDF statistics:
+ 32 PDF objects out of 1000 (max. 8388607)
+ 2 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)

@@ -12,18 +12,18 @@ def sanitize_for_latex(text):
     
     # Replace problematic Unicode characters
     replacements = {
-        'â€"': '--',  # en-dash
-        'â€"': '---',  # em-dash
-        ''': "'",   # left single quote
-        ''': "'",   # right single quote
-        '"': "``",  # left double quote
-        '"': "''",  # right double quote
-        'â€¦': '...',  # ellipsis
-        'â‚¬': r'\euro',
-        'Â£': r'\pounds',
-        'Â°': r'$^\circ$',
-        '—': '--',  # em dash
-        '–': '--',  # en dash
+        'Ã¢â‚¬"': '--',
+        'Ã¢â‚¬"': '---',
+        ''': "'",
+        ''': "'",
+        '"': "``",
+        '"': "''",
+        'Ã¢â‚¬Â¦': '...',
+        'Ã¢â€šÂ¬': r'\euro',
+        'Ã‚Â£': r'\pounds',
+        'Ã‚Â°': r'$^\circ$',
+        'â€"': '--',
+        'â€"': '--',
         '"': "``",
         '"': "''",
         ''': "'",
@@ -107,7 +107,6 @@ def validate_user_info(user_info):
     for key, default_value in defaults.items():
         if key not in user_info or user_info[key] is None:
             user_info[key] = default_value
-        # Ensure lists are actually lists
         elif isinstance(default_value, list) and not isinstance(user_info[key], list):
             user_info[key] = default_value
     
@@ -189,11 +188,45 @@ def fill_latex_resume(user_info, output_path="resume.tex"):
         
         print(f"✓ Using template: {template_file}")
         
-        # Load and render template
-        env = Environment(loader=FileSystemLoader(str(template_path)))
-        template = env.get_template("latex_template.tex")
+        # Configure Jinja2 with custom delimiters to avoid LaTeX conflicts
+        # Use [[ ]] for variables and [% %] for statements instead of {{ }} and {% %}
+        env = Environment(
+            loader=FileSystemLoader(str(template_path)),
+            trim_blocks=True,
+            lstrip_blocks=True,
+            # --- MODIFIED LINES START ---
+            variable_start_string='((',
+            variable_end_string='))',
+            block_start_string='((\%',
+            block_end_string='%))'
+            # --- MODIFIED LINES END ---
+        )
         
+        template = env.get_template("latex_template.tex")
+
+        # Dump sanitized info for debugging
+        try:
+            debug_dir = Path("temp")
+            debug_dir.mkdir(parents=True, exist_ok=True)
+            import json
+            with open(debug_dir / 'sanitized_info.json', 'w', encoding='utf-8') as dbg:
+                json.dump(sanitized_info, dbg, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
+
         tex_code = template.render(**sanitized_info)
+
+        # Debugging: log context keys and a preview of rendered code
+        try:
+            print("\n--- LaTeX render debug ---")
+            print(f"sanitized_info type: {type(sanitized_info)}")
+            if isinstance(sanitized_info, dict):
+                print(f"sanitized_info keys: {list(sanitized_info.keys())}")
+            print("Rendered preview (first 500 chars):")
+            print(tex_code[:500])
+            print("--- end debug ---\n")
+        except Exception:
+            pass
         
         # Ensure output directory exists
         output_path = Path(output_path)

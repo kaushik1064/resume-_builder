@@ -13,7 +13,7 @@ from fastapi import FastAPI, UploadFile, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from agents.dynamic_scraper import process_sources
 from agents.job_matcher import match_resume_to_job
-from agents.latex_generator import fill_latex_resume
+from agents.llm_resume_formatter import generate_latex_resume  # Changed import
 from utils.pdf_generator import tex_to_pdf
 from starlette.responses import FileResponse, JSONResponse
 
@@ -116,15 +116,21 @@ async def process_resume(
         print(f"  Email: {ai_resume.get('email', 'N/A')}")
         print(f"  Title: {ai_resume.get('title', 'N/A')}")
         
-        # Generate LaTeX
+        # Generate LaTeX using LLM
         print("\n" + "=" * 60)
-        print("Generating LaTeX...")
+        print("Generating LaTeX with LLM...")
         print("=" * 60)
         tex_output_path = os.path.join(TEMP, "resume.tex")
         
         try:
-            tex_code, tex_fp = fill_latex_resume(ai_resume, output_path=tex_output_path)
-            print(f"✓ LaTeX generated: {tex_fp}")
+            tex_code = generate_latex_resume(ai_resume, job_desc_text)
+            
+            # Write LaTeX to file
+            with open(tex_output_path, "w", encoding="utf-8") as f:
+                f.write(tex_code)
+            
+            print(f"✓ LaTeX generated: {tex_output_path}")
+            print(f"  File size: {len(tex_code)} bytes")
         except Exception as e:
             print(f"✗ LaTeX generation failed: {str(e)}")
             traceback.print_exc()
@@ -138,21 +144,28 @@ async def process_resume(
         print("Compiling PDF...")
         print("=" * 60)
         try:
-            pdf_fp = tex_to_pdf(tex_fp, TEMP)
+            pdf_fp = tex_to_pdf(tex_output_path, TEMP)
             print(f"✓ PDF compiled: {pdf_fp}")
         except Exception as e:
             print(f"✗ PDF compilation failed: {str(e)}")
             traceback.print_exc()
             
             # Return the .tex file for debugging if PDF fails
-            if os.path.exists(tex_fp):
+            if os.path.exists(tex_output_path):
+                raw_err = str(e) if e is not None else ""
+                safe_err = ' '.join(raw_err.splitlines())
+                safe_err = safe_err.replace('\r', ' ').replace('\n', ' ')
+                if len(safe_err) > 300:
+                    safe_err = safe_err[:300] + '...'
+
                 return FileResponse(
-                    str(tex_fp), 
+                    str(tex_output_path), 
                     media_type="application/x-tex",
                     filename="debug_resume.tex",
+                    status_code=500,
                     headers={
                         "X-Error": "PDF compilation failed. Returning .tex file for debugging.",
-                        "X-Error-Detail": str(e)
+                        "X-Error-Detail": safe_err
                     }
                 )
             else:

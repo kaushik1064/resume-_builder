@@ -1,0 +1,7 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+! Undefined control sequence.
+<*> temp\resume
+               .tex
+!  ==> Fatal error occurred, no output PDF file produced!

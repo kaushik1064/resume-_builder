@@ -1,5 +1,7 @@
-{% raw %}
 \documentclass[a4paper,10pt]{article}
+
+\%-----------------------------------------------------------
+
 \usepackage[top=0.75in, bottom=0.75in, left=0.55in, right=0.85in]{geometry}
 \usepackage{graphicx}
 \usepackage{url}
@@ -11,12 +13,12 @@
 \selectfont
 
 \hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,
-    urlcolor=cyan,
-    pdftitle={Resume},
-    pdfpagemode=FullScreen,
+colorlinks=true,
+linkcolor=blue,
+filecolor=magenta,
+urlcolor=cyan,
+pdftitle={Resume},
+pdfpagemode=FullScreen,
 }
 
 \urlstyle{same}
@@ -26,125 +28,126 @@
 \definecolor{mygrey}{gray}{0.75}
 \textheight=9.8in
 \raggedbottom
-
 \setlength{\tabcolsep}{0in}
 \newcommand{\isep}{-2 pt}
 \newcommand{\lsep}{-0.5cm}
 \newcommand{\psep}{-0.6cm}
 \renewcommand{\labelitemii}{$\circ$}
-
 \pagestyle{empty}
-\newcommand{\resheading}[1]{%
-  \par\noindent%
-  \small%
-  \colorbox{mygrey}{%
-    \parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
-      \textbf{#1}%
-    }%
-  }%
-  \par\nobreak%
+\%-----------------------------------------------------------
+\%Custom commands
+\newcommand{\resheading}[1]{\%
+\par\noindent\%
+\small\%
+\colorbox{mygrey}{\%
+\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\%
+\textbf{#1}\%
+}\%
+}\%
+\par\nobreak\%
 }
+
 \newcommand{\ressubheading}[3]{
 \begin{tabular*}{6.62in}{l @{\extracolsep{\fill}} r}
-    \textsc{{\textbf{#1}}} & \textsc{\textit{[#2]}} \\
+\textsc{{\textbf{#1}}} & \textsc{\textit{[#2]}} \\
 \end{tabular*}\vspace{-8pt}}
 
 \begin{document}
+
 \hspace{0.5cm}\\[-1.8cm]
+\textbf{ (( name|default('YOUR NAME') )) } \hspace{9.6cm} {\bf (( email|default('email@example.com') ))}\\
+\indent {\bf (( title|default('Job Title') ))} \hspace{10.3 cm} {\bf (( phone|default('+00-0000000000') ))} \\
+((\% if location \%))
+\indent {\bf (( location ))} \hspace{7.9 cm} {\bf (( linkedin|default('') ))} \\
+((\% endif \%))
+((\% if github \%))
+\indent {\bf (( github ))} \\
+((\% endif \%))
 
-% Header
-\textbf{ {{- name|default('YOUR NAME') -}} } \hfill {\bf {{ email|default('email@example.com') }}}\\
-\indent {\bf {{ title|default('Job Title') }}} \hfill {\bf {{ phone|default('+00-0000000000') }}} \\
-{% if location %}
-\indent {\bf {{ location }}} \hfill {\bf {{ linkedin|default('') }}} \\
-{% endif %}
-{% if github %}
-\indent {\bf {{ github }}} \\
-{% endif %}
-
-% Education Section
-{% if education %}
+\% Education Section
+((\% if education \%))
 \vspace{-2mm}
-\resheading{\textbf{EDUCATION}}
-
-\vspace{2mm}
-\indent \begin{tabular}{p{2.5cm} p{5.5cm} p{3.5cm} p{2.5cm} p{1.5cm}}
+\resheading{\textbf{EDUCATION} }\\[\lsep]\\ \\
+\indent \begin{tabular}{ p{2.5cm} @{\hskip 0.15in} p{5.5cm} @{\hskip 0.15in} p{3.5cm} @{\hskip 0.15in} p{2.5cm} @{\hskip 0.15in} p{1.5cm} }
 \toprule
 \textbf{Degree} & \textbf{Specialization} & \textbf{Institute} & \textbf{Year} & \textbf{GPA} \\
 \midrule
-{% for edu in education %}
-{{ edu.degree|default('') }} & \textit{ {{- edu.specialization|default('') -}} } & {{ edu.institute|default('') }} & {{ edu.year|default('') }} & {{ edu.gpa|default('') }} \\
-{% endfor %}
+((\% for edu in education \%))
+(( edu.degree|default('') )) & \textit{ (( edu.specialization|default('') )) } & (( edu.institute|default('') )) & (( edu.year|default('') )) & (( edu.gpa|default('') )) \\
+((\% endfor \%))
 \bottomrule
 \end{tabular}
+\\ \\
+((\% endif \%))
 
-\vspace{3mm}
-{% endif %}
-
-% Work Experience Section
-{% if experience %}
-\resheading{\textbf{WORK EXPERIENCE}}
-
-{% for exp in experience %}
+\% Work Experience Section
+((\% if experience \%))
+\vspace{1mm}
+\resheading{\textbf{WORK EXPERIENCE} }
+((\% for exp in experience \%))
 \begin{itemize}
-\item {\bf {{ exp.title|default('') }}} \textit{[{{ exp.company|default('') }}]}
-\textit{\hfill {{ '{' }}{{ exp.duration|default('') }}{{ '}' }}}
+\vspace{-1mm}
+\item {\bf (( exp.title|default('') )) } \textit{((( exp.company|default('') )))}
+\textit{\hfill {(( exp.duration|default('') ))}}
+
+\vspace{-1mm}
 \begin{itemize}
-{% for detail in exp.details %}
-\item {{ detail }}
-{% endfor %}
+((\% for detail in exp.details \%))
+\item (( detail ))
+((\% endfor \%))
+\vspace{-1mm}
 \end{itemize}
 \end{itemize}
-{% endfor %}
-{% endif %}
+((\% endfor \%))
+((\% endif \%))
 
-% Projects Section
-{% if projects %}
-\resheading{\textbf{PROJECTS}}
-
-{% for proj in projects %}
+\% Projects Section
+((\%if projects \%))
+\resheading{\textbf{PROJECTS} }
+((\% for proj in projects \%))
 \begin{itemize}
-\item {\bf {{ proj.name|default('') }}} {% if proj.link %}\href{ {{- proj.link -}} }{Project Link}{% endif %}
-\textit{\hfill {{ '{' }}{{ proj.duration|default('') }}{{ '}' }}}
+\vspace{-0.5mm}
+\item {\bf (( proj.name|default('') )) } ((\% if proj.link \%))\href{ (( proj.link )) }{Project Link}((\% endif \%))
+\textit{\hfill {(( proj.duration|default('') ))} }
 \begin{itemize}
-{% for detail in proj.details %}
-\item {{ detail }}
-{% endfor %}
+\vspace{-2mm}
+((\% for detail in proj.details \%))
+\item (( detail ))
+((\% endfor \%))
+\vspace{-2mm}
 \end{itemize}
 \end{itemize}
-{% endfor %}
-{% endif %}
+((\% endfor \%))
+((\% endif \%))
 
-% Certifications Section
-{% if certifications %}
-\resheading{\textbf{CERTIFICATIONS}}
-
-\vspace{2mm}
+\% Certifications Section
+((\% if certifications \%))
+\resheading{\textbf{CERTIFICATIONS} }\\[\lsep]
 \begin{itemize}
-{% for cert in certifications %}
-\item {\bf {{ cert.name|default('') }}} - {{ cert.issuer|default('') }} \hfill \textit{ {{- cert.date|default('') -}} }
-{% if cert.details %}
+((\% for cert in certifications \%))
+\item {\bf (( cert.name|default('') )) } - (( cert.issuer|default('') )) \hfill \textit{ (( cert.date|default('') )) }
+((\% if cert.details \%))
 \begin{itemize}
-{% for detail in cert.details %}
-\item {{ detail }}
-{% endfor %}
+((\% for detail in cert.details \%))
+\item (( detail ))
+((\% endfor \%))
 \end{itemize}
-{% endif %}
-{% endfor %}
+((\% endif \%))
+((\% endfor \%))
 \end{itemize}
-{% endif %}
+((\% endif \%))
 
-% Technical Skills Section
-{% if skills %}
-\resheading{\textbf{TECHNICAL SKILLS}}
-
-\vspace{2mm}
+\% Technical Skills Section
+((\% if skills \%))
+\resheading{\textbf{TECHNICAL SKILLS} }
 \begin{itemize}
-{% for skill in skills %}
-\item \textbf{ {{- skill.category|default('') -}} :} {{ skill.items|default('') }}
-{% endfor %}
+\vspace{-1mm}
+((\% for skill in skills \%))
+\item \textbf{ (( skill.category|default('') )) :} (( skill.items|default('') ))
+\vspace{-1mm}
+((\% endfor \%))
+\vspace{-4mm}
 \end{itemize}
-{% endif %}
+((\% endif \%))
 
 \end{document}
-{% endraw %}

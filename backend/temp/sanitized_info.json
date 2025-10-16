@@ -1,0 +1,106 @@
+{
+  "name": "SRI KAUSHIK AYALURI",
+  "email": "srinukaus@gmail.com",
+  "phone": "+91-9381880485",
+  "title": "AI/ML Engineer | Data Scientist",
+  "location": "Visakhapatnam, India",
+  "linkedin": "linkedin.com/in/sri-kaushik-ayaluri",
+  "github": "github.com/kaushik1064",
+  "education": [
+    {
+      "degree": "B.Tech",
+      "specialization": "Mechanical Engineering",
+      "institute": "SCE College",
+      "year": "2022",
+      "gpa": "7.01"
+    }
+  ],
+  "experience": [
+    {
+      "title": "Data Engineering \\& ML Systems Developer",
+      "company": "VELOXIVISION EDU TECH",
+      "duration": "Feb 2024-Aug 2024",
+      "details": [
+        "Architected end-to-end data pipelines processing 50,000+ transactions, implementing ETL processes and data transformation workflows to production-ready quality standards.",
+        "Designed and deployed cloud-based ML applications using AWS services, integrating real-time data processing with scalable SQL and NoSQL databases.",
+        "Developed automated data validation and quality assurance frameworks, ensuring data integrity across multiple data sources and improving pipeline reliability by 40\\%.",
+        "Collaborated with cross-functional teams to implement machine learning models in production environments, demonstrating leadership in technical decision-making and solution design."
+      ]
+    },
+    {
+      "title": "AI/ML Engineer - GenAI Solutions",
+      "company": "Omdena Organization",
+      "duration": "Oct 2023-Jan 2024",
+      "details": [
+        "Led development of production-scale AI applications processing 500,000+ records, implementing generative AI models and advanced neural networks with TensorFlow and PyTorch frameworks.",
+        "Built robust data engineering infrastructure supporting deep learning pipelines, including data preprocessing, feature engineering, and model deployment on cloud platforms.",
+        "Designed scalable ML model architecture achieving 90\\% accuracy improvement, implementing continuous integration/deployment practices for production-ready AI systems.",
+        "Mentored junior team members on ML best practices and data engineering methodologies, contributing to team skill development and knowledge transfer initiatives."
+      ]
+    },
+    {
+      "title": "Data Pipeline \\& ML Systems Engineer",
+      "company": "Omdena Global Projects",
+      "duration": "May 2023-June 2023",
+      "details": [
+        "Engineered high-performance data processing systems for 10,000+ records, implementing distributed computing solutions and optimized data storage strategies.",
+        "Developed machine learning model deployment pipelines, integrating cloud AI services and ensuring seamless production deployment with monitoring and alerting systems.",
+        "Implemented automated data quality checks and pipeline monitoring, achieving 99\\% uptime and contributing to process optimization across multiple projects."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Enterprise-Grade GenAI Application with Production Data Pipeline",
+      "link": "Project Link",
+      "duration": "Nov 2024-Dec 2024",
+      "details": [
+        "Architected complete AI/ML solution integrating generative AI models with robust data engineering infrastructure, handling 1,000+ daily requests with enterprise-grade reliability.",
+        "Implemented advanced ETL pipelines and real-time data processing using cloud services, integrating vector databases and distributed storage solutions for optimal performance.",
+        "Deployed production-ready chatbot with neural network optimization, achieving 90\\% accuracy through deep learning frameworks and continuous model improvement."
+      ]
+    },
+    {
+      "name": "Multi-Modal AI System with Scalable Data Architecture",
+      "link": "Project Link",
+      "duration": "Sep 2024-Oct 2024",
+      "details": [
+        "Built comprehensive ML pipeline combining computer vision and image processing capabilities, processing 500+ images per second with distributed data architecture.",
+        "Implemented cloud-native deployment using containerization and orchestration, achieving 60\\% performance improvement through optimized data pipeline design.",
+        "Designed scalable infrastructure supporting 80+ concurrent users with real-time monitoring and automated scaling based on data processing demands."
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Advanced AI/ML Engineering \\& Data Engineering",
+      "issuer": "Veloxivision Edu Tech",
+      "date": "Oct 2022-Oct 2023",
+      "details": [
+        "Comprehensive training in data engineering, ML system architecture, cloud deployment, and production AI applications. Specialized focus on ETL processes, data pipeline optimization, and generative AI implementation."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "category": "Programming Languages",
+      "items": "Python, SQL"
+    },
+    {
+      "category": "Machine Learning \\& AI",
+      "items": "TensorFlow, PyTorch, scikit-learn, Deep Learning, Neural Networks, Generative AI, Large Language Models (LLMs), Chatbots, Computer Vision, Image Processing, NLP, Regression, Classification, Clustering, Recommendation Algorithms"
+    },
+    {
+      "category": "Data Engineering \\& Databases",
+      "items": "ETL Processes, Data Pipeline Architecture, Real-time Processing, Data Quality Management, Data Warehousing, MySQL, PostgreSQL, MongoDB, Vector Databases (FAISS)"
+    },
+    {
+      "category": "Cloud Platforms",
+      "items": "AWS (EC2, S3, Lambda, SageMaker), Azure, Google Cloud"
+    },
+    {
+      "category": "Tools \\& DevOps",
+      "items": "Docker, Kubernetes, Git, CI/CD, Production Deployment, A/B Testing, Monitoring \\& Alerting"
+    }
+  ]
+}
